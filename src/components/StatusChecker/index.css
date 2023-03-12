@@ -1,0 +1,14 @@
+.status-container {
+	background-color: red;
+	padding: 1.5rem;
+	display: flex;
+	justify-content: center;
+	border-radius: 1rem;
+	color: white;
+	font-weight: 700;
+	font-size: 1.5rem;
+}
+
+.good {
+	background-color: rgb(21, 202, 111);
+}

@@ -1,0 +1,46 @@
+
+
+.container {
+	width: 100%;
+	display: flex;
+	justify-content: center;
+	background-color: rgb(240, 240, 240);
+	position: relative;
+}
+
+.content {
+	background-color: white;
+	max-width: 900px;
+	min-height: 100vh;
+	padding: 1.5rem;
+}
+
+h1 {
+	margin: 1rem 0;
+}
+
+h4 {
+	font-size: 1.2rem;
+}
+p {
+	margin: 0.3rem 0;
+}
+
+button{
+	width: 100%;
+	background-color: rgb(46, 46, 46);
+	border: none;
+	box-sizing: border-box;
+	padding: 1.5rem;
+	display: flex;
+	justify-content: center;
+	border-radius: 1rem;
+	color: white;
+	font-weight: 700;
+	font-size: 1rem;
+	transition: all ease 100ms;
+}
+
+button:hover{
+	transform: scale(1.05);
+}
