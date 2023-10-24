@@ -6,13 +6,13 @@ const QtySelector = ({ value, onChange }) => {
 
 	return (
 		<div className="qty-container">
-			<button onClick={Decrease} className='qty-col decrease'>
+			<button type="button" onClick={Decrease} className='qty-col decrease'>
 				-
 			</button>
 			<div className='qty-col qty-amount'>
 				{value}
 			</div>
-			<button onClick={Increase} className='qty-col increase'>
+			<button type="button" onClick={Increase} className='qty-col increase'>
 				+
 			</button>
 		</div>

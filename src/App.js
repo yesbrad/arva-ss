@@ -9,24 +9,23 @@ import AddSKU from './components/AddSKU';
 import ErrorModal from './components/ErrorModal';
 import SaleSearchForm from './components/SaleSearchForm';
 import Exit from './components/Exit';
+import ManualUpdateModal from './components/ManualUpdateModal';
 
 const App = () => {
 	const [ss, setSS] = useState({});
 	const [so, setSO] = useState({});
+	const [selectedLine, SetSelectedLine] = useState({});
 	const [error, setError] = useState({
 		title: "",
 		message: "",
 	});
 	const [loaded, setLoaded] = useState(false);
 
-	let testOrderNumber = "SO-00015614";
-
 	useEffect(() => {
 		//Load();
 	}, [])
 
 	const Load = async (orderNumber) => {
-
 		let SS = await LoadSSFromOrderID(orderNumber);
 
 		if (SS.Guid){
@@ -50,10 +49,8 @@ const App = () => {
 		setLoaded(false);
 	}
 
-	const onAddSKU = (uCode, amount) => {
+	const onAddSKU = (uCode, amount, isSet) => {
 		let isCodePresent = false;
-
-		console.log("UCODE::", uCode)
 
 		for (let i = 0; i < ss.SalesShipmentLines.length; i++){
 			if (ss.SalesShipmentLines[i].Product.ProductCode == uCode) isCodePresent = true;
@@ -65,7 +62,7 @@ const App = () => {
 			//Increment
 			arr = ss.SalesShipmentLines.map((line, i) => {
 				if (line.Product.ProductCode == uCode) {
-					return {...line, ShipmentQty: line.ShipmentQty + amount }
+					return {...line, ShipmentQty: isSet ? amount : line.ShipmentQty + amount }
 				}
 
 
@@ -149,6 +146,7 @@ const App = () => {
 			<Exit onExit={Close} />
 			<div className='content'>
 				<SaleSearchForm onSearch={Load} loaded={loaded} />
+				<ManualUpdateModal orderLine={selectedLine} onClose={() => SetSelectedLine({})} onUpdate={(amt, uCode) => onAddSKU(uCode, amt, true)}/>
 				<Header>{ss && ss.ShipmentNumber}</Header>
 				<Heading>Details</Heading>
 				{so.Customer && <p>Name: {so.Customer.CustomerName}</p>}
@@ -158,7 +156,7 @@ const App = () => {
 				<Heading>Status</Heading>
 				{(Object.keys(ss).length !== 0 && Object.keys(so).length !== 0)&& <StatusChecker so={so} ss={ss}></StatusChecker>}
 				<Heading>Order/Shipment Lines</Heading>
-				{so.SalesOrderLines !== undefined && so.SalesOrderLines.map(a => <OrderLine key={a.LineNumber} orderLine={a} shipment={ss}></OrderLine>)}
+				{so.SalesOrderLines !== undefined && so.SalesOrderLines.map(a => <OrderLine key={a.LineNumber} orderLine={a} onSelect={() => {SetSelectedLine(a); console.log("OFF");}} shipment={ss}></OrderLine>)}
 				<Heading>Scan SKU</Heading>
 				<AddSKU onAddSKU={onAddSKU}/>
 			</div>

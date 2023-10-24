@@ -14,12 +14,14 @@ const AddSKU = ({ onAddSKU }) => {
 	
 	return (
 		<div className="add-container">
-			<input
-				onChange={onInput}
-				value={SKU}
-			></input>
-			<QtySelector value={addAmount} onChange={setAddAmount} />
-			<button onClick={() => { console.log(SKU); onAddSKU(SKU, addAmount); }}>Add SKU</button>
+			<form onSubmit={(e) => {e.preventDefault(); onAddSKU(SKU, addAmount); setSKU("");}}>
+				<input
+					onChange={onInput}
+					value={SKU}
+					></input>
+				<QtySelector value={addAmount} onChange={setAddAmount} />
+				<button>Add SKU</button>
+			</form>
 		</div>
 	)
 }

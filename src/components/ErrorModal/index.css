@@ -1,36 +1,4 @@
-.modal {
-	position: fixed;
-	top: 4%;
-	bottom: 0;
-	right: 20%;
-	left: 20%;
+.error-modal {
 	background-color: red;
-	border-top-left-radius: 2rem;
-	border-top-right-radius: 2rem;
-	display: flex;
-	flex-direction: column;
-	justify-content: center;
-	align-items: center;
-	color: white;
-	padding: 3rem;
-	transition: all ease 200ms;
-	z-index: 100;
-
 }
 
-@media screen and (max-width: 900px) {
-	.modal{
-		top: 50%;
-		right: 5%;
-		left: 5%;
-		padding: 1rem;
-	}
-}
-
-.modal-on {
-
-}
-
-.modal-off {
-	top: 100%;
-}

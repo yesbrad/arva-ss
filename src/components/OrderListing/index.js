@@ -22,7 +22,7 @@ const OrderLine = (props) => {
 	}
 
 	return (
-		<div class="order-container">
+		<div class="order-container" onClick={() => props.onSelect()}>
 			<div className="order-name">
 				<span>
 					<p>{props.orderLine.Product.ProductDescription}</p>
