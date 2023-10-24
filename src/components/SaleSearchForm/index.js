@@ -5,7 +5,15 @@ const SaleSearchForm = ({ onSearch, loaded }) => {
 	const [orderQuery, setOrderQuery] = useState("SO-00018365");
 
 	const onSearchForm = () => {
-		onSearch(orderQuery);
+		let id = "SO-";
+		let oq = orderQuery;
+
+		if(oq.includes("SO-") == false){
+			id = id.concat(oq);
+			oq = id;
+		}
+
+		onSearch(oq);
 	}
 
 	return (
