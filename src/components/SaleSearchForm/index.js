@@ -2,7 +2,7 @@ import { useState, useRef, useEffect } from 'react';
 import './index.css';
 
 const SaleSearchForm = ({ onSearch, loaded }) => {
-	const [orderQuery, setOrderQuery] = useState("SO-00018365");
+	const [orderQuery, setOrderQuery] = useState("SO-00018398");
 
 	const onSearchForm = () => {
 		let id = "SO-";

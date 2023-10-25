@@ -14,7 +14,7 @@ const AddSKU = ({ onAddSKU }) => {
 	
 	return (
 		<div className="add-container">
-			<form onSubmit={(e) => {e.preventDefault(); onAddSKU(SKU, addAmount); setSKU("");}}>
+			<form onSubmit={(e) => {e.preventDefault(); onAddSKU(SKU, addAmount, false); setSKU("");}}>
 				<input
 					onChange={onInput}
 					value={SKU}

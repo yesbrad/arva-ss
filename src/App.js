@@ -30,10 +30,11 @@ const App = () => {
 
 		if (SS.Guid){
 			setSS(SS);
-
 			let SO = await LoadSO(SS.OrderGuid)
 			setSO(SO);
-			console.log(SS)
+
+			console.log("SS", SS)
+			console.log("SO", SO)
 
 			setLoaded(true);
 		}
@@ -49,11 +50,35 @@ const App = () => {
 		setLoaded(false);
 	}
 
-	const onAddSKU = (uCode, amount, isSet) => {
+	const onAddSKU = async (Barcode, amount, isSet) => {
 		let isCodePresent = false;
 
+		if(Barcode == "") {
+			SetError("Empty Barcode", "Please add a Barcode and try again...");
+			return;
+		}
+
+		//Find product
+		let response = await API("GET", `Products?productBarCode=${Barcode}`);
+
+		console.log("BIGG", response);
+
+		if(response.description == "(403) Forbidden" || response.Items.length == 0) {
+			SetError("Unknown Barcode!", "We have no record of this Barcode. This will need to be fixed before proceeding...");
+			return;
+		}
+
+		const uCode = response.Items[0].ProductCode;
+		
 		for (let i = 0; i < ss.SalesShipmentLines.length; i++){
-			if (ss.SalesShipmentLines[i].Product.ProductCode == uCode) isCodePresent = true;
+			if (ss.SalesShipmentLines[i].Product.ProductCode == uCode){
+				isCodePresent = true;
+			}
+		}
+
+		if(isCodePresent == false) {
+			SetError("Product Not on Order", "This order doesnt not contain this Product");
+			return;
 		}
 
 		let arr;
@@ -156,8 +181,8 @@ const App = () => {
 				<Heading>Status</Heading>
 				{(Object.keys(ss).length !== 0 && Object.keys(so).length !== 0)&& <StatusChecker so={so} ss={ss}></StatusChecker>}
 				<Heading>Order/Shipment Lines</Heading>
-				{so.SalesOrderLines !== undefined && so.SalesOrderLines.map(a => <OrderLine key={a.LineNumber} orderLine={a} onSelect={() => {SetSelectedLine(a); console.log("OFF");}} shipment={ss}></OrderLine>)}
-				<Heading>Scan SKU</Heading>
+				{so.SalesOrderLines !== undefined && so.SalesOrderLines.map(a => <OrderLine key={a.LineNumber} orderLine={a} onSelect={() => {SetSelectedLine(a);}} shipment={ss}></OrderLine>)}
+				<Heading>Scan Barcode</Heading>
 				<AddSKU onAddSKU={onAddSKU}/>
 			</div>
 		</div>
