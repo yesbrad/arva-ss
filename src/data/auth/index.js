@@ -33,22 +33,42 @@ export const API = async (postType, endpoint, json) => {
 
 	var signature = GetAuthSignature(sp, privateKey);
 	
-	let response = await fetch(`https://api.unleashedsoftware.com/${endpoint}`, {
-		method: postType,
-		headers: {
-			"Content-Type": "application/json",
-			"Accept": "application/json",
-			"api-auth-id": authID,
-			"api-auth-signature": signature,
-		},
-		body: JSON.stringify(json),
+	if(postType == "GET" ){
+		let response = await fetch(`https://api.unleashedsoftware.com/${endpoint}`, {
+			method: postType,
+			headers: {
+				"Content-Type": "application/json",
+				"Accept": "application/json",
+				"api-auth-id": authID,
+				"api-auth-signature": signature,
+			},
+			
+		}).catch(err => {
+			console.log("API GET ERROR :: ", err)
+			return err;
+		})
 		
-	}).catch(err => {
-		console.log("API ERROR :: ", err)
-		return err;
-	})
+		return await response.json();
+	}
+	else{
+		let response = await fetch(`https://api.unleashedsoftware.com/${endpoint}`, {
+			method: postType,
+			headers: {
+				"Content-Type": "application/json",
+				"Accept": "application/json",
+				"api-auth-id": authID,
+				"api-auth-signature": signature,
+			},
+			body:  JSON.stringify(json),
+			
+		}).catch(err => {
+			console.log("API ERROR :: ", err)
+			return err;
+		})
+
+		return await response.json();
+	}
 	
-	return await response.json();
 }
 
 const GetAuthSignature = (req, key) => {
